@@ -3,27 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ww-tl-prototype</title>
-    <link rel="stylesheet" href="/home/yui/Documents/GitHub/ww-transliterator/style.css">
+    <title>Visual Transliteration Tool</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
 
-    <h1>ww-Transliterator</h1>
+    <h1>Visual Transliterator</h1>
 
     <div class="controls">
         <label for="script-select">Select Script: </label>
         <select id="script-select">
-            <!-- populated by script -->
+            <!-- Options will be populated here -->
         </select>
-        <button class="btn-clear" onclick="clearText()">Clear Text</button>
+        <button class="btn-clear" id="clear-btn">Clear Text</button>
     </div>
 
     <textarea id="output-area" placeholder="Click images below to type..."></textarea>
 
     <div id="image-grid" class="image-grid">
-        <!-- populated by script -->
     </div>
 
-    <script src="/home/yui/Documents/GitHub/ww-transliterator/script.js"></script>
 </body>
 </html>

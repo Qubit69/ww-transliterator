@@ -19,59 +19,71 @@ const scriptData = {
     ]
 };
 
-const scriptSelect = document.getElementById('script-select');
-const imageGrid = document.getElementById('image-grid');
-const outputArea = document.getElementById('output-area');
+// Wait for DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', () => {
+    const scriptSelect = document.getElementById('script-select');
+    const imageGrid = document.getElementById('image-grid');
+    const outputArea = document.getElementById('output-area');
+    const clearBtn = document.getElementById('clear-btn');
 
-function init() {
-    Object.keys(scriptData).forEach(scriptName => {
-        const option = document.createElement('option');
-        option.value = scriptName;
-        option.textContent = scriptName;
-        scriptSelect.appendChild(option);
-    });
-    renderGrid(Object.keys(scriptData)[0]);
-}
+    if (!scriptSelect || !imageGrid || !outputArea) {
+        console.error("Could not find one or more required HTML elements.");
+        return;
+    }
 
-function renderGrid(scriptName) {
-    imageGrid.innerHTML = '';
-    const items = scriptData[scriptName];
-
-    items.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'letter-card';
-        card.dataset.char = item.char;
-
-        const img = document.createElement('img');
-        img.src = item.img;
-        img.alt = item.char;
-
-        const label = document.createElement('span');
-        label.className = 'letter-label';
-        label.textContent = item.char;
-
-        card.appendChild(img);
-        card.appendChild(label);
-
-        card.addEventListener('click', () => {
-            appendToText(item.char);
+    function init() {
+        // Clear and populate dropdown
+        scriptSelect.innerHTML = '';
+        Object.keys(scriptData).forEach(scriptName => {
+            const option = document.createElement('option');
+            option.value = scriptName;
+            option.textContent = scriptName;
+            scriptSelect.appendChild(option);
         });
 
-        imageGrid.appendChild(card);
+        // Load the first script by default
+        renderGrid(Object.keys(scriptData)[0]);
+    }
+
+    function renderGrid(scriptName) {
+        imageGrid.innerHTML = '';
+        const items = scriptData[scriptName];
+
+        if (!items) return;
+
+        items.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'letter-card';
+
+            const img = document.createElement('img');
+            img.src = item.img;
+            img.alt = item.char;
+
+            const label = document.createElement('span');
+            label.className = 'letter-label';
+            label.textContent = item.char;
+
+            card.appendChild(img);
+            card.appendChild(label);
+
+            card.addEventListener('click', () => {
+                outputArea.value += item.char;
+                outputArea.scrollTop = outputArea.scrollHeight;
+            });
+
+            imageGrid.appendChild(card);
+        });
+    }
+
+    // Listen for dropdown changes
+    scriptSelect.addEventListener('change', (e) => {
+        renderGrid(e.target.value);
     });
-}
 
-function appendToText(char) {
-    outputArea.value += char;
-    outputArea.scrollTop = outputArea.scrollHeight;
-}
+    // Clear button logic
+    clearBtn.addEventListener('click', () => {
+        outputArea.value = '';
+    });
 
-function clearText() {
-    outputArea.value = '';
-}
-
-scriptSelect.addEventListener('change', (e) => {
-    renderGrid(e.target.value);
+    init();
 });
-
-init();
