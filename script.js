@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
             else
             {
                 const visualImg = document.createElement('img');
-                visualImg.src = 'img/unknown.png'
+                visualImg.src = 'img/common/placeholders/unknown.png'
                 visualOutput.appendChild(visualImg);
             }
         }
