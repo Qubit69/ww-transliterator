@@ -1,31 +1,40 @@
 const scriptData = {
     "Solaris Script": [
-        { char: 'Q', img: 'https://placehold.co/100x100/transparent/FFF?text=Q' },
-        { char: 'W', img: 'https://placehold.co/100x100/transparent/FFF?text=W' },
+        { char: 'Q', img: 'img/solaris/q.png' },
+        { char: 'W', img: 'img/solaris/w.png' },
         { char: 'E', img: 'img/solaris/e.png' },
-        { char: 'R', img: 'https://placehold.co/100x100/transparent/FFF?text=R' },
-        { char: 'T', img: 'https://placehold.co/100x100/transparent/FFF?text=T' },
-        { char: 'Y', img: 'https://placehold.co/100x100/transparent/FFF?text=Y' },
-        { char: 'U', img: 'https://placehold.co/100x100/transparent/FFF?text=U' },
-        { char: 'I', img: 'https://placehold.co/100x100/transparent/FFF?text=I' },
-        { char: 'O', img: 'https://placehold.co/100x100/transparent/FFF?text=O' },
-        { char: 'P', img: 'https://placehold.co/100x100/transparent/FFF?text=P' },
+        { char: 'R', img: 'img/solaris/r.png' },
+        { char: 'T', img: 'img/solaris/t.png' },
+        { char: 'Y', img: 'img/solaris/y.png' },
+        { char: 'U', img: 'img/solaris/u.png' },
+        { char: 'I', img: 'img/solaris/i.png' },
+        { char: 'O', img: 'img/solaris/o.png' },
+        { char: 'P', img: 'img/solaris/p.png' },
         { char: 'A', img: 'img/solaris/a.png' },
-        { char: 'S', img: 'https://placehold.co/100x100/transparent/FFF?text=S' },
+        { char: 'S', img: 'img/solaris/s.png' },
         { char: 'D', img: 'img/solaris/d.png' },
-        { char: 'F', img: 'https://placehold.co/100x100/transparent/FFF?text=F' },
-        { char: 'G', img: 'https://placehold.co/100x100/transparent/FFF?text=G' },
-        { char: 'H', img: 'https://placehold.co/100x100/transparent/FFF?text=H' },
-        { char: 'J', img: 'https://placehold.co/100x100/transparent/FFF?text=J' },
-        { char: 'K', img: 'https://placehold.co/100x100/transparent/FFF?text=K' },
-        { char: 'L', img: 'https://placehold.co/100x100/transparent/FFF?text=L' },
-        { char: 'Z', img: 'https://placehold.co/100x100/transparent/FFF?text=Z' },
-        { char: 'X', img: 'https://placehold.co/100x100/transparent/FFF?text=X' },
+        { char: 'F', img: 'img/solaris/f.png' },
+        { char: 'G', img: 'img/solaris/g.png' },
+        { char: 'H', img: 'img/solaris/h.png' },
+        { char: 'J', img: 'img/solaris/j.png' },
+        { char: 'K', img: 'img/solaris/k.png' },
+        { char: 'L', img: 'img/solaris/l.png' },
+        { char: 'Z', img: 'img/solaris/z.png' },
+        { char: 'X', img: 'img/solaris/x.png' },
         { char: 'C', img: 'img/solaris/c.png' },
-        { char: 'V', img: 'https://placehold.co/100x100/transparent/FFF?text=V' },
+        { char: 'V', img: 'img/solaris/v.png' },
         { char: 'B', img: 'img/solaris/b.png' },
-        { char: 'N', img: 'https://placehold.co/100x100/transparent/FFF?text=N' },
-        { char: 'M', img: 'https://placehold.co/100x100/transparent/FFF?text=M' }
+        { char: 'N', img: 'img/solaris/n.png' },
+        { char: 'M', img: 'img/solaris/m.png' },
+        { char: '[', img: 'img/solaris/[.png' },
+        { char: ']', img: 'img/solaris/].png' },
+        { char: '(', img: 'img/solaris/(.png' },
+        { char: ')', img: 'img/solaris/).png' },
+        { char: ',', img: 'img/solaris/].png' },
+        { char: '.', img: 'img/solaris/dot.png' },
+        { char: ':', img: 'img/solaris/double-dot.png' },
+        { char: ';', img: 'img/solaris/semicolon.png' },
+        { char: '/', img: 'img/solaris/slash.png' },
     ]
 };
 
@@ -67,6 +76,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 const spacer = document.createElement('div');
                 spacer.style.width = '20px';
                 visualOutput.appendChild(spacer);
+            }
+            else
+            {
+                const visualImg = document.createElement('img');
+                visualImg.src = 'img/unknown.png'
+                visualOutput.appendChild(visualImg);
             }
         }
     }
