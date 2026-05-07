@@ -1,10 +1,32 @@
 const scriptData = {
-    "Latin Alphabet": [
-        { char: 'A', img: 'https://placehold.co/100x100?text=A' },
-        { char: 'B', img: 'https://placehold.co/100x100?text=B' },
-        { char: 'C', img: 'https://placehold.co/100x100?text=C' },
-        { char: 'D', img: 'https://placehold.co/100x100?text=D' },
-        { char: 'E', img: 'https://placehold.co/100x100?text=E' }
+    "Solaris Script": [
+        { char: 'A', img: 'img/solaris/a.png' },
+        { char: 'B', img: 'img/solaris/b.png' },
+        { char: 'C', img: 'img/solaris/c.png' },
+        { char: 'D', img: 'img/solaris/d.png' },
+        { char: 'E', img: 'img/solaris/e.png' },
+        { char: 'F', img: 'https://placehold.co/100x100?text=E' },
+        { char: 'G', img: 'https://placehold.co/100x100?text=E' },
+        { char: 'H', img: 'https://placehold.co/100x100?text=E' },
+        { char: 'I', img: 'https://placehold.co/100x100?text=E' },
+        { char: 'J', img: 'https://placehold.co/100x100?text=E' },
+        { char: 'K', img: 'https://placehold.co/100x100?text=E' },
+        { char: 'L', img: 'https://placehold.co/100x100?text=E' },
+        { char: 'M', img: 'https://placehold.co/100x100?text=E' },
+        { char: 'N', img: 'https://placehold.co/100x100?text=E' },
+        { char: 'O', img: 'https://placehold.co/100x100?text=E' },
+        { char: 'P', img: 'https://placehold.co/100x100?text=E' },
+        { char: 'Q', img: 'https://placehold.co/100x100?text=E' },
+        { char: 'R', img: 'https://placehold.co/100x100?text=E' },
+        { char: 'S', img: 'https://placehold.co/100x100?text=E' },
+        { char: 'T', img: 'https://placehold.co/100x100?text=E' },
+        { char: 'U', img: 'https://placehold.co/100x100?text=E' },
+        { char: 'V', img: 'https://placehold.co/100x100?text=E' },
+        { char: 'W', img: 'https://placehold.co/100x100?text=E' },
+        { char: 'X', img: 'https://placehold.co/100x100?text=E' },
+        { char: 'Y', img: 'https://placehold.co/100x100?text=E' },
+        { char: 'Z', img: 'https://placehold.co/100x100?text=E' },
+
     ],
     "Greek Alphabet": [
         { char: 'α', img: 'https://placehold.co/100x100?text=Alpha' },
@@ -19,12 +41,10 @@ const scriptData = {
     ]
 };
 
-// Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', () => {
     const scriptSelect = document.getElementById('script-select');
     const imageGrid = document.getElementById('image-grid');
     const outputArea = document.getElementById('output-area');
-    const clearBtn = document.getElementById('clear-btn');
 
     if (!scriptSelect || !imageGrid || !outputArea) {
         console.error("Could not find one or more required HTML elements.");
@@ -41,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
             scriptSelect.appendChild(option);
         });
 
-        // Load the first script by default
         renderGrid(Object.keys(scriptData)[0]);
     }
 
@@ -75,15 +94,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Listen for dropdown changes
     scriptSelect.addEventListener('change', (e) => {
         renderGrid(e.target.value);
     });
 
-    // Clear button logic
-    clearBtn.addEventListener('click', () => {
-        outputArea.value = '';
-    });
 
     init();
 });

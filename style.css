@@ -4,7 +4,8 @@ body {
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    background-color: #f4f4f9;
+    background-color: #191919;
+    color:rgba(250,250,250,0.7);
 }
 
 .controls {
@@ -19,20 +20,28 @@ margin-bottom: 20px;
 padding: 15px;
 font-size: 1.5rem;
 border-radius: 8px;
-border: 2px solid #ccc;
+border: 2px solid rgba(0, 0, 0, 0);
 resize: none;
+background-color: #333333;
+color:white;
 }
 
+#script-select {
+    background-color: #333333;
+    color: #ffffff;
+    border: 1px solid #444;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 1rem;
+}
 .image-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
     gap: 10px;
     width: 100%;
     max-width: 800px;
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    background: transparent;
+
 }
 
 .letter-card {
@@ -43,17 +52,13 @@ resize: none;
     transition: transform 0.1s, background-color 0.1s;
     padding: 10px;
     border-radius: 8px;
-    border: 1px solid #eee;
+    border: 1px solid #333333;
 }
 
 .letter-card:hover {
-    background-color: #eef2ff;
-    transform: scale(1.05);
+    background-color: rgba(252,221,17,0.1);
 }
 
-.letter-card:active {
-    transform: scale(0.95);
-}
 
 .letter-card img {
     width: 50px;
@@ -63,17 +68,7 @@ resize: none;
 }
 
 .letter-label {
-    margin-top: 5px;
-    font-size: 0.8rem;
-    color: #666;
-}
-
-.btn-clear {
     margin-top: 10px;
-    padding: 8px 16px;
-    cursor: pointer;
-    background: #ff4757;
-    color: white;
-    border: none;
-    border-radius: 4px;
+    font-size: 1rem;
+    color: #fcec88;
 }
