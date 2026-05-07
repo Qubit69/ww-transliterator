@@ -30,7 +30,7 @@ const scriptData = {
         { char: ']', img: 'img/solaris/].png' },
         { char: '(', img: 'img/solaris/(.png' },
         { char: ')', img: 'img/solaris/).png' },
-        { char: ',', img: 'img/solaris/].png' },
+        { char: ',', img: 'img/solaris/,.png' },
         { char: '.', img: 'img/solaris/dot.png' },
         { char: ':', img: 'img/solaris/double-dot.png' },
         { char: ';', img: 'img/solaris/semicolon.png' },
