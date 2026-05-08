@@ -1,3 +1,18 @@
-TODO: Fill this in
+# Wuthering Waves Transliterator
+This tool is created for the purpose of transliterating in-game text of Wuthering Waves.
+Go to the live Page: https://qubit69.github.io/ww-transliterator/
 
-Go to the Github Page: https://qubit69.github.io/ww-transliterator/
+Features:
+> Live preview of text-image and image-text
+> Clickable reference chart for in-game text
+
+
+To be implemented:
+> More scripts
+
+Contributors:
+Images should be 1:1 ratio, 100x100 with transparent backgrounds and preferably moved in the proper script folder. See the ref folder
+
+If you can find any fonts DM me on Discord: @yuisu
+
+
