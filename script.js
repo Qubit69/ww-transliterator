@@ -1,42 +1,44 @@
-const scriptData = {
-    "Solaris Script": [
-        { char: 'Q', img: 'img/solaris/q.png' },
-        { char: 'W', img: 'img/solaris/w.png' },
-        { char: 'E', img: 'img/solaris/e.png' },
-        { char: 'R', img: 'img/solaris/r.png' },
-        { char: 'T', img: 'img/solaris/t.png' },
-        { char: 'Y', img: 'img/solaris/y.png' },
-        { char: 'U', img: 'img/solaris/u.png' },
-        { char: 'I', img: 'img/solaris/i.png' },
-        { char: 'O', img: 'img/solaris/o.png' },
-        { char: 'P', img: 'img/solaris/p.png' },
-        { char: 'A', img: 'img/solaris/a.png' },
-        { char: 'S', img: 'img/solaris/s.png' },
-        { char: 'D', img: 'img/solaris/d.png' },
-        { char: 'F', img: 'img/solaris/f.png' },
-        { char: 'G', img: 'img/solaris/g.png' },
-        { char: 'H', img: 'img/solaris/h.png' },
-        { char: 'J', img: 'img/solaris/j.png' },
-        { char: 'K', img: 'img/solaris/k.png' },
-        { char: 'L', img: 'img/solaris/l.png' },
-        { char: 'Z', img: 'img/solaris/z.png' },
-        { char: 'X', img: 'img/solaris/x.png' },
-        { char: 'C', img: 'img/solaris/c.png' },
-        { char: 'V', img: 'img/solaris/v.png' },
-        { char: 'B', img: 'img/solaris/b.png' },
-        { char: 'N', img: 'img/solaris/n.png' },
-        { char: 'M', img: 'img/solaris/m.png' },
-        { char: '[', img: 'img/solaris/[.png' },
-        { char: ']', img: 'img/solaris/].png' },
-        { char: '(', img: 'img/solaris/(.png' },
-        { char: ')', img: 'img/solaris/).png' },
-        { char: ',', img: 'img/solaris/,.png' },
-        { char: '.', img: 'img/solaris/dot.png' },
-        { char: ':', img: 'img/solaris/double-dot.png' },
-        { char: ';', img: 'img/solaris/semicolon.png' },
-        { char: '/', img: 'img/solaris/slash.png' },
-    ]
+const scripts = {
+    "Solaris": { folder: "solaris", chars: "QWERTYUIOPASDFGHJKLZXCVBNM[](),.:;/" }
 };
+
+const specialCharMap = {
+    '?': 'question',
+    '!': 'exclamation',
+    '*': 'asterisk',
+    '\'': 'quote',
+    '"': 'double-quote',
+    '<': 'less-than',
+    '>': 'greater-than',
+    '~': 'tilde',
+    ':': 'double-dot',
+    ';': 'semicolon',
+    '.': 'dot',
+    '\\': 'backslash',
+    '/': 'slash',
+    '#': 'hashtag'
+};
+
+const scriptData = {};
+
+const createImg = (src, alt = "") => {
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = alt;
+    return img;
+};
+
+function getImagePath(char, folder) {
+    const fileName = specialCharMap[char] || char.toLowerCase();
+    return `img/${folder}/${fileName}.png`;
+}
+
+Object.entries(scripts).forEach(([name, { folder, chars }]) => {
+    scriptData[name] = chars.split('').reduce((acc, char) => {
+        acc[char.toUpperCase()] = { char, img: getImagePath(char, folder) };
+        return acc;
+    }, {});
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     const scriptSelect = document.getElementById('script-select');
@@ -45,86 +47,60 @@ document.addEventListener('DOMContentLoaded', () => {
     const visualOutput = document.getElementById('visual-output');
 
     function init() {
-        scriptSelect.innerHTML = '';
-        Object.keys(scriptData).forEach(scriptName => {
-            const option = document.createElement('option');
-            option.value = scriptName;
-            option.textContent = scriptName;
-            scriptSelect.appendChild(option);
-        });
-        renderGrid(Object.keys(scriptData)[0]);
+        scriptSelect.innerHTML = Object.keys(scriptData)
+        .map(name => `<option value="${name}">${name}</option>`).join('');
+        renderGrid(scriptSelect.value);
     }
 
-    // Function to rebuild the visual sequence based on what is in the textarea
     function updateVisualFromText() {
         visualOutput.innerHTML = '';
-        const currentScript = scriptSelect.value;
-        const alphabet = scriptData[currentScript];
-        const text = outputArea.value;
+        const alphabet = scriptData[scriptSelect.value];
 
-        // Loop through each character typed
-        for (let char of text) {
-            // Find the corresponding image in our data (case-insensitive for Latin)
-            const match = alphabet.find(item => item.char.toUpperCase() === char.toUpperCase());
+        [...outputArea.value].forEach(char => {
+            const upperChar = char.toUpperCase();
 
-            if (match) {
-                const visualImg = document.createElement('img');
-                visualImg.src = match.img;
-                visualOutput.appendChild(visualImg);
+            if (alphabet[upperChar]) {
+                visualOutput.appendChild(createImg(alphabet[upperChar].img));
             } else if (char === ' ') {
-                // Add a spacer for spaces
                 const spacer = document.createElement('div');
                 spacer.style.width = '20px';
                 visualOutput.appendChild(spacer);
+            } else {
+                const charName = specialCharMap[char] || char;
+                const img = createImg(`img/common/placeholders/${charName}.png`);
+                img.onerror = function() {
+                    this.src = 'img/common/placeholders/unknown.png';
+                    this.onerror = null;
+                };
+                visualOutput.appendChild(img);
             }
-            else
-            {
-                const visualImg = document.createElement('img');
-                visualImg.src = 'img/common/placeholders/unknown.png'
-                visualOutput.appendChild(visualImg);
-            }
-        }
+        });
     }
 
     function renderGrid(scriptName) {
         imageGrid.innerHTML = '';
-        const items = scriptData[scriptName];
-
-        items.forEach(item => {
+        Object.values(scriptData[scriptName]).forEach(item => {
             const card = document.createElement('div');
             card.className = 'letter-card';
-
-            const img = document.createElement('img');
-            img.src = item.img;
-            img.alt = item.char;
 
             const label = document.createElement('span');
             label.className = 'letter-label';
             label.textContent = item.char;
 
-            card.appendChild(img);
-            card.appendChild(label);
-
+            card.append(createImg(item.img, item.char), label);
             card.addEventListener('click', () => {
                 outputArea.value += item.char;
-                updateVisualFromText(); // Trigger redraw
+                updateVisualFromText();
                 outputArea.scrollTop = outputArea.scrollHeight;
             });
 
             imageGrid.appendChild(card);
         });
-
-        // Refresh visuals if script changes while text is present
         updateVisualFromText();
     }
 
-    // LISTENER 1: When user types or deletes in the text box
     outputArea.addEventListener('input', updateVisualFromText);
-
-    // LISTENER 2: When user changes the language script
-    scriptSelect.addEventListener('change', (e) => {
-        renderGrid(e.target.value);
-    });
+    scriptSelect.addEventListener('change', (e) => renderGrid(e.target.value));
 
     init();
 });
