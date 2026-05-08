@@ -24,7 +24,7 @@ body {
 }
 
 .header-banner { padding: 4px 12px; }
-.header-banner a { color: rgba(250, 250, 250, 0.5); }
+.header-banner a {font-size:0.9rem; color: rgba(250, 250, 250, 0.5); white-space: pre-line; }
 
 .controls, .visual-output, #output-area { margin-bottom: 20px; }
 

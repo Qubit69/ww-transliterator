@@ -16,7 +16,8 @@ const specialCharMap = {
     '.': 'dot',
     '\\': 'backslash',
     '/': 'slash',
-    '#': 'hashtag'
+    '#': 'hashtag',
+    '%': 'percent'
 };
 
 const scriptData = {};
