@@ -1,11 +1,10 @@
 # Wuthering Waves Transliterator
 This tool is created for the purpose of transliterating in-game text of Wuthering Waves.
 
-<div align="center">
-   <img src="./img/common/preview.png" width="480px" />
-</div>
-
 Go to the live page: https://qubit69.github.io/ww-transliterator/
+<div align="center">
+   <img src="./img/common/preview.png" width="800px" />
+</div>
 
 Features:
 > Live preview of text-image and image-text
