@@ -3,7 +3,7 @@
     "date": "2026-06-20",
     "changes": [
       "Added Lahai-Roi Script",
-      "Adjusted numbers for Solaris"
+      "Adjusted numbers for Solaris",
       "Added new changelog",
       "Improved fallback characters-\nCommon placeholders are now loaded as a last resort\n",
       "Implemented a button to toggle the tiles' \nbackground from black, white, and green",
