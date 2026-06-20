@@ -26,7 +26,6 @@ body {
 .header-banner { padding: 4px 12px; }
 .header-banner a {font-size:0.9rem; color: rgba(250, 250, 250, 0.5); white-space: pre-line; }
 
-.controls, .visual-output, #output-area { margin-bottom: 20px; }
 
 #output-area, #script-select { background-color: #333333; }
 
@@ -48,13 +47,14 @@ border: 1px solid #444;
 padding: 8px;
 border-radius: 4px;
 font-size: 1rem;
+cursor: pointer;
 }
 
 .visual-output, .image-grid {
     width: 100%;
     max-width: 800px;
 }
-
+/*Tile background*/
 .visual-output {
     display: flex;
     flex-wrap: wrap;
@@ -65,7 +65,59 @@ font-size: 1rem;
     background-color: rgba(255, 255, 255, 0.05);
     border-radius: 8px;
 }
+/*Tile background modifiers*/
+.visual-output.bg-black {
+    background-color: #000000;
+}
+.visual-output.bg-invert {
+    filter: invert(100%);
+}
 
+.visual-output.bg-green {
+    background-color: #FB0BFB;
+}
+/*Top buttons*/
+.controls, .visual-output, #output-area { margin-bottom: 20px; }
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+.toggle-container { margin-top:6px;}
+
+/*Tile background button*/
+#bg-cycle-btn {
+background-color: #333333;
+color: #ffffff;
+border: 1px solid #444;
+padding: 6px 12px;
+border-radius: 4px;
+cursor: pointer;
+font-size: 0.9rem;
+}
+
+#bg-cycle-btn:hover {
+background-color: #444444;
+}
+
+/*Tile delete button*/
+#backspace-btn {
+background-color: #a81808;
+padding: 6px 12px;
+color: #ffffff;
+border: 1px solid #444;
+border-radius: 4px;
+cursor: pointer;
+font-size: 0.9rem;
+}
+
+#backspace-btn:hover {
+background-color: #d61d08;
+}
+
+/*Tile*/
 .visual-output img {
     height: 32px;
     width: auto;

@@ -1,0 +1,37 @@
+[
+  {
+    "date": "2026-06-20",
+    "changes": [
+      "Added Lahai-Roi Script",
+      "Adjusted numbers for Solaris"
+      "Added new changelog",
+      "Improved fallback characters-\nCommon placeholders are now loaded as a last resort\n",
+      "Implemented a button to toggle the tiles' \nbackground from black, white, and green",
+      "Implemented backspace button \nUseful for touchscreen"
+    ]
+  },
+  {
+    "date": "2026-05-11",
+    "changes": [
+      "Added Ragunna Script",
+      "Added preloading for images\n(Should resolve flickering)",
+      "Support for newlines"
+    ]
+  },
+  {
+    "date": "2026-05-08",
+    "changes": [
+      "Reworked JS end",
+      "Added placeholders for special characters",
+      "Adjusted CSS to be a bit tighter",
+      "Added header and helper"
+    ]
+  },
+  {
+    "date": "2026-05-07",
+    "changes": [
+      "Added the rest of the Solaris Script",
+      "Fix comma"
+    ]
+  }
+]

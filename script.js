@@ -1,6 +1,7 @@
 const scripts = {
     "Solaris": { folder: "solaris", chars: "QWERTYUIOPASDFGHJKLZXCVBNM[](),.:;/" },
-    "Ragunna": { folder: "ragunna", chars: "QWERTYUIOPASDFGHJKLZXCVBNM" }
+    "Ragunna": { folder: "ragunna", chars: "QWERTYUIOPASDFGHJKLZXCVBNM" },
+    "Lahai-Roi": { folder: "lahairoi", chars: "QWERTYUIOPASDFGHJKLZXCVBNM.?" }
 };
 
 const specialCharMap = {
@@ -29,11 +30,15 @@ function getPath(char, folder = 'common/placeholders') {
     return `img/${folder}/${name}.png`;
 }
 
-// Preload
+// Preload all assets
 function initAssets() {
     [unknownImg, ...Object.values(specialCharMap).map(n => `img/common/placeholders/${n}.png`)].forEach(preload);
     Object.entries(scripts).forEach(([_, { folder, chars }]) => {
         chars.split('').forEach(c => preload(getPath(c, folder)));
+    });
+    Object.keys(specialCharMap).forEach(char => {
+        Object.values(scripts).forEach(({ folder }) => preload(getPath(char, folder)));
+        preload(getPath(char));
     });
 }
 
@@ -43,7 +48,7 @@ function preload(src) {
     img.onerror = () => imgCache.set(src, unknownImg);
 }
 
-// Load img
+// Load tiles
 const createImg = (src, alt = "") => {
     const img = document.createElement('img');
     img.src = imgCache.get(src) || src;
@@ -55,12 +60,37 @@ const createImg = (src, alt = "") => {
 document.addEventListener('DOMContentLoaded', () => {
     const ui = {
         select: document.getElementById('script-select'),
-        grid: document.getElementById('image-grid'),
-        input: document.getElementById('output-area'),
-        visual: document.getElementById('visual-output')
+                          grid: document.getElementById('image-grid'),
+                          input: document.getElementById('output-area'),
+                          visual: document.getElementById('visual-output'),
+                          tileBGbutton: document.getElementById('bg-cycle-btn'),
+                          backspaceBtn: document.getElementById('backspace-btn')
     };
     initAssets();
 
+// Backspace button
+    ui.backspaceBtn.addEventListener('click', () => {
+        ui.input.value = ui.input.value.slice(0, -1);
+        updateVisual();
+    });
+
+// Tile background button
+    let bgState = 0;
+    const states = [
+        { label: "Toggle BG Color", classes: [] },
+        { label: "BG: Black", classes: ["bg-black"] },
+        { label: "BG: White", classes: ["bg-black", "bg-invert"] },
+        { label: "BG: Green", classes: ["bg-green", "bg-invert"] }
+    ];
+
+    ui.tileBGbutton.addEventListener('click', () => {
+        bgState = (bgState + 1) % states.length;
+        ui.visual.classList.remove('bg-black', 'bg-invert', 'bg-green');
+        states[bgState].classes.forEach(cls => ui.visual.classList.add(cls));
+        ui.tileBGbutton.textContent = states[bgState].label;
+    });
+
+// Tile logic
     const updateVisual = () => {
         const frag = document.createDocumentFragment();
         const script = scripts[ui.select.value];
@@ -75,13 +105,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (char === '\n') {
                 const br = document.createElement('div');
-                // Probably unnecessary but without this linebreaks dont work
                 br.style.flexBasis = '100%';
                 return frag.appendChild(br);
             }
 
-            const isScriptChar = script.chars.includes(char.toUpperCase());
-            const src = isScriptChar ? getPath(char, script.folder) : getPath(char);
+            const folderSrc = getPath(char, script.folder);
+            const commonSrc = getPath(char);
+            let src = folderSrc;
+
+            // Final fallback
+            const isScriptChar = script.chars.includes(char.toUpperCase()) || script.chars.includes(char.toLowerCase());
+            if (!isScriptChar && imgCache.get(folderSrc) === unknownImg) {
+                src = commonSrc;
+            }
+
             frag.appendChild(createImg(src));
         });
 
@@ -107,3 +144,27 @@ document.addEventListener('DOMContentLoaded', () => {
     ui.input.oninput = updateVisual;
     renderGrid();
 });
+
+// Load the changelog
+async function loadChangelog() {
+    const container = document.getElementById('changelog');
+    if (!container) return;
+
+    try {
+        const response = await fetch('./changelog.json');
+        const data = await response.json();
+        let textOutput = "Short Changelog:\n";
+
+        data.forEach(entry => {
+            textOutput += `\n${entry.date}\n`;
+            entry.changes.forEach(change => {
+                textOutput += `- ${change}\n`;
+            });
+        });
+
+        container.textContent = textOutput.trim();
+    } catch (error) {
+        console.error('Error loading changelog:', error);
+    }
+}
+document.addEventListener('DOMContentLoaded', loadChangelog);
