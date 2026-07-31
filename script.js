@@ -1,7 +1,8 @@
 const scripts = {
     "Solaris": { folder: "solaris", chars: "QWERTYUIOPASDFGHJKLZXCVBNM[](),.:;/" },
     "Ragunna": { folder: "ragunna", chars: "QWERTYUIOPASDFGHJKLZXCVBNM" },
-    "Lahai-Roi": { folder: "lahairoi", chars: "QWERTYUIOPASDFGHJKLZXCVBNM.?" }
+    "Lahai-Roi": { folder: "lahairoi", chars: "QWERTYUIOPASDFGHJKLZXCVBNM.?" },
+    "PGR (WIP)": { folder: "pgr", chars: "QWERTYUIOPASDFGHJKLZXCVBNM!?@$[]().:;/+=-_" },
 };
 
 const specialCharMap = {
@@ -19,7 +20,13 @@ const specialCharMap = {
     '\\': 'backslash',
     '/': 'slash',
     '#': 'hashtag',
-    '%': 'percent'
+    '%': 'percent',
+    '@': 'at',
+    '$': 'dollar',
+    '=': 'equals',
+    '_': 'underscore',
+    '-': 'dash',
+    '+': 'plus'
 };
 
 const unknownImg = 'img/common/placeholders/unknown.png';

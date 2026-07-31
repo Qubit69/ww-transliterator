@@ -1,5 +1,13 @@
 [
   {
+    "date": "2026-08-01",
+    "changes": [
+      "Added partial PGR script",
+      "Added more special char. mapping",
+      "Removed old ref. pictures"
+    ]
+  },
+  {
     "date": "2026-06-20",
     "changes": [
       "Added Lahai-Roi Script",
