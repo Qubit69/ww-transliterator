@@ -4,7 +4,8 @@
     "changes": [
       "Reduced short changelog (this one) to 2 entries.\nShort changelog can now show **bold** text.\nMade the changelog more readable\n",
       "Added more reference pics",
-      "Added links to **references**. Many of these-\n are not sorted and fonts is coming soon",
+      "Added **links** to **references**. Many of these-\n are not sorted (yet)",
+      "Added **links** to **fonts**",
       "Fixed Tile letters CSS not being applied",
       "Reduced tile size. Also condensed page layout",
       "Renamed to **Yui's Transliterator**",
