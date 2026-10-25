@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
                           input: document.getElementById('output-area'),
                           visual: document.getElementById('visual-output'),
                           tileBGbutton: document.getElementById('bg-cycle-btn'),
+                          toggleGridBtn: document.getElementById('toggle-grid-btn'),
                           backspaceBtn: document.getElementById('backspace-btn')
     };
     initAssets();
@@ -81,10 +82,15 @@ document.addEventListener('DOMContentLoaded', () => {
         updateVisual();
     });
 
+// Toggle grid button
+    ui.toggleGridBtn.addEventListener('click', () => {
+        ui.grid.classList.toggle('hidden');
+        ui.toggleGridBtn.textContent = ui.grid.classList.contains('hidden') ? 'Show Tiles' : 'Hide Tiles';
+    });
 // Tile background button
     let bgState = 0;
     const states = [
-        { label: "Toggle BG Color", classes: [] },
+        { label: "Change BG", classes: [] },
         { label: "BG: Black", classes: ["bg-black"] },
         { label: "BG: White", classes: ["bg-black", "bg-invert"] },
         { label: "BG: Green", classes: ["bg-green", "bg-invert"] }
@@ -160,7 +166,7 @@ async function loadChangelog() {
     try {
         const response = await fetch('./changelog.json');
         const data = await response.json();
-        let textOutput = "Short Changelog:\n";
+        let textOutput = "Changelog:\n";
 
         data.forEach(entry => {
             textOutput += `\n${entry.date}\n`;
@@ -169,7 +175,12 @@ async function loadChangelog() {
             });
         });
 
-        container.textContent = textOutput.trim();
+        let htmlOutput = textOutput
+        .trim()
+        .replace(/\*\*(.*?)\*\*/g, '<span>$1</span>')
+        .replace(/\n/g, '<br>');
+
+        container.innerHTML = htmlOutput;
     } catch (error) {
         console.error('Error loading changelog:', error);
     }
