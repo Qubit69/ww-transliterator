@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Solaris",
+        "description": "Source: **Solaris Archives**\nIntroduced in **1.0**\nThe main script used mostly in **Jinzhou** and **Black Shores**"
+    },
+    {
+        "name": "Solaris-Old",
+        "description": "Source: **wuwa.huijiwiki.com**\nIntroduced in **CBT1**\nStill is used in some **Warning** popups when nearing dangerous enemies."
+    },
+    {
+        "name": "Ragunna",
+        "description": "Source: **Solaris Archives**\nIntroduced in **2.0**\nUsed in **Ragunna, Riccioli Islands, Avinoleum**"
+    },
+    {
+        "name": "Septimont",
+        "description": "Source: **wuwa.huijiwiki.com**\nIntroduced in **2.4**\nUsed in **Septimont**"
+    },
+    {
+        "name": "Lahai-Roi",
+        "description": "Source: **Solaris Archives**\nIntroduced in **3.0** (technically **2.8** in Honami)\nUsed in **Lahai-Roi**, a lot of **UI elements** and **events**"
+    }
+]

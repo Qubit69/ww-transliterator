@@ -1,3 +1,4 @@
+const VERSION = "0.1"
 const scripts = {
     "Solaris": { folder: "solaris", chars: "QWERTYUIOPASDFGHJKLZXCVBNM[](),.:;/" },
     "Ragunna": { folder: "ragunna", chars: "QWERTYUIOPASDFGHJKLZXCVBNM" },
@@ -54,7 +55,15 @@ function preload(src) {
     img.src = src;
     img.onerror = () => imgCache.set(src, unknownImg);
 }
-
+//Load header/footer
+async function loadComponent(id, file) {
+    try {
+        const response = await fetch(file);
+        if (response.ok) {
+            document.getElementById(id).outerHTML = await response.text();
+        }
+    } catch (error) {}
+}
 // Load tiles
 const createImg = (src, alt = "") => {
     const img = document.createElement('img');
@@ -64,30 +73,142 @@ const createImg = (src, alt = "") => {
     return img;
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+// Load the changelog
+async function loadChangelog() {
+
+    const path = window.location.pathname;
+    const isIndex = path.endsWith('index.html') || path.endsWith('/') || path.endsWith('/ww-transliterator/');
+    if (!isIndex) return;
+
+    const container = document.getElementById('changelog');
+    if (!container) return;
+
+    try {
+        const response = await fetch('./changelog.json');
+        const data = await response.json();
+        let textOutput = "**Changelog**\n";
+
+        data.forEach(entry => {
+            const versionTag = entry.version ? ` - v${entry.version}` : '';
+            textOutput += `\n${entry.date}${versionTag}\n`;
+            entry.changes.forEach(change => {
+                textOutput += `- ${change}\n`;
+            });
+        });
+
+        let htmlOutput = textOutput
+        .trim()
+        .replace(/\*\*(.*?)\*\*/g, '<span>$1</span>')
+        .replace(/\n/g, '<br>');
+
+        container.innerHTML = htmlOutput;
+    } catch (error) {
+        console.error('Error loading changelog:', error);
+    }
+}
+
+// On fonts page load fonts
+async function loadFonts() {
+    const path = window.location.pathname;
+    const isFonts = path.endsWith('fonts.html');
+    if (!isFonts) return;
+
+    const container = document.getElementById('font-container');
+    if (!container) return;
+
+    try {
+        const response = await fetch('./fonts/fonts.json');
+        const fonts = await response.json();
+
+        container.innerHTML = ''; // Clear placeholder text
+
+        let searchInput = document.getElementById('font-search');
+        if (!searchInput) {
+            searchInput = document.createElement('input');
+            searchInput.type = 'text';
+            searchInput.id = 'font-search';
+            searchInput.className = 'font-search';
+            searchInput.placeholder = 'Filter...';
+            container.parentNode.insertBefore(searchInput, container);
+        }
+
+        const cards = [];
+
+        fonts.forEach(font => {
+            const box = document.createElement('div');
+            box.className = 'banner-box banner-image-box';
+            box.dataset.search = `${font.name} ${font.description || ''}`.toLowerCase();
+
+            const upperName = font.name.toUpperCase();
+            const filename = `${upperName}.ttf`;
+            const imgSrc = `img/common/fonts/${upperName}.svg`;
+
+            const formattedDesc = (font.description || '')
+            .replace(/\*\*(.*?)\*\*/g, '<span>$1</span>')
+            .replace(/\n/g, '<br>');
+
+            box.innerHTML = `
+            <img src="${imgSrc}" alt="" onerror="this.style.display='none'">
+            <div class="banner-image-box-content">
+            <strong class="banner-image-box-title">${font.name}</strong>
+            <p class="banner-image-box-desc">${formattedDesc}</p>
+            <a href="fonts/${filename}" download class="banner-image-box-link">Download</a>
+            </div>
+            `;
+            container.appendChild(box);
+            cards.push(box);
+        });
+        // Filter
+        searchInput.oninput = (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            cards.forEach(card => {
+                const matches = card.dataset.search.includes(query);
+                card.style.display = matches ? 'flex' : 'none';
+            });
+        };
+
+    } catch (error) {
+        console.error('Error loading fonts:', error);
+        container.innerHTML = 'Failed to load fonts.';
+    }
+}
+// Init
+document.addEventListener('DOMContentLoaded', async () => {
+    await loadComponent('header-placeholder', 'header.html');
+    await loadComponent('footer-placeholder', 'footer.html');
+
+    const versionEl = document.getElementById('version');
+    if (versionEl) {
+        versionEl.textContent = `v${VERSION}`;
+    }
+
+    loadChangelog();
+    loadFonts();
+
     const ui = {
         select: document.getElementById('script-select'),
-                          grid: document.getElementById('image-grid'),
+                          grid: document.getElementById('tile-grid'),
                           input: document.getElementById('output-area'),
-                          visual: document.getElementById('visual-output'),
-                          tileBGbutton: document.getElementById('bg-cycle-btn'),
+                          visual: document.getElementById('output-grid'),
+                          tileBGbutton: document.getElementById('toggle-bg-btn'),
                           toggleGridBtn: document.getElementById('toggle-grid-btn'),
                           backspaceBtn: document.getElementById('backspace-btn')
     };
+
     initAssets();
 
-// Backspace button
+// Delete tile btn
     ui.backspaceBtn.addEventListener('click', () => {
         ui.input.value = ui.input.value.slice(0, -1);
         updateVisual();
     });
 
-// Toggle grid button
+// Toggle grid btn
     ui.toggleGridBtn.addEventListener('click', () => {
         ui.grid.classList.toggle('hidden');
         ui.toggleGridBtn.textContent = ui.grid.classList.contains('hidden') ? 'Show Tiles' : 'Hide Tiles';
     });
-// Tile background button
+// Toggle background btn
     let bgState = 0;
     const states = [
         { label: "Change BG", classes: [] },
@@ -144,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const script = scripts[ui.select.value];
         script.chars.split('').forEach(char => {
             const card = document.createElement('div');
-            card.className = 'letter-card';
+            card.className = 'tile';
             card.append(createImg(getPath(char, script.folder), char), Object.assign(document.createElement('span'), {textContent: char}));
             card.onclick = () => { ui.input.value += char; updateVisual(); };
             ui.grid.appendChild(card);
@@ -157,32 +278,3 @@ document.addEventListener('DOMContentLoaded', () => {
     ui.input.oninput = updateVisual;
     renderGrid();
 });
-
-// Load the changelog
-async function loadChangelog() {
-    const container = document.getElementById('changelog');
-    if (!container) return;
-
-    try {
-        const response = await fetch('./changelog.json');
-        const data = await response.json();
-        let textOutput = "Changelog:\n";
-
-        data.forEach(entry => {
-            textOutput += `\n${entry.date}\n`;
-            entry.changes.forEach(change => {
-                textOutput += `- ${change}\n`;
-            });
-        });
-
-        let htmlOutput = textOutput
-        .trim()
-        .replace(/\*\*(.*?)\*\*/g, '<span>$1</span>')
-        .replace(/\n/g, '<br>');
-
-        container.innerHTML = htmlOutput;
-    } catch (error) {
-        console.error('Error loading changelog:', error);
-    }
-}
-document.addEventListener('DOMContentLoaded', loadChangelog);

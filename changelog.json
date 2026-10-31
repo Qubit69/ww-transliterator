@@ -1,6 +1,18 @@
 [
   {
+    "date": "2026-10-31",
+    "version": "0.1",
+    "changes": [
+      "Restyled some elements",
+      "Added *version numbers v(major.minor)*",
+      "Cleaned some backend stuff in preparation-\nof multiple pages",
+      "Added proper **fonts page**.\nPlease check it out!",
+      "Changed delete tile button from unicode to SVG"
+    ]
+  },
+  {
     "date": "2026-10-25",
+    "version": "",
     "changes": [
       "Reduced short changelog (this one) to 2 entries.\nShort changelog can now show **bold** text.\nMade the changelog more readable\n",
       "Added more reference pics",
@@ -10,14 +22,6 @@
       "Reduced tile size. Also condensed page layout",
       "Renamed to **Yui's Transliterator**",
       "Tiles can now be hidden"
-    ]
-  },
-  {
-    "date": "2026-08-01",
-    "changes": [
-      "Added **PGR** script",
-      "Added more special char. mapping",
-      "Removed old ref. pictures"
     ]
   }
 ]
