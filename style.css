@@ -41,6 +41,7 @@ a:not(.header-link) {
 }
 .header-title {
     font-size:2rem;
+    color:var(--text-primary);
 }
 .header-link {
     text-decoration: none;
