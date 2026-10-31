@@ -15,47 +15,35 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="twitter:card" content="summary_large_image">
-<!--  -->
 
     <title>Translit Tool</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 </head>
 <body>
-    <header class="site-header">
-        <div class="header-banner">
-            <h2>Yui's Translit Tool</h2>
-            <a>Press the tiles to insert text. You can also type it in!
-            Tiles marked with '? ? ?' are not in the selected script</a>
-        </div>
-    </header>
+    <!-- Header -->
+    <div id="header-placeholder"></div>
+
     <div class="controls">
+    <div class="banner-box">Press the tiles to insert text. You can also type it in!<br>
+    Tiles marked with '? ? ?' are not in the selected script</div>
         <label for="script-select">Current Script</label>
         <br>
-        <select id="script-select">
+        <select id="script-select" class="selector" title="Adjust current script">
         </select>
-        <div class="toggle-container">
-            <button type="button" id="bg-cycle-btn">Change BG</button>
-            <button type="button" id="toggle-grid-btn">Hide Tiles</button>
-            <button type="button" id="backspace-btn">🡄</button>
+        <div class="btn-container">
+            <button type="button" id="toggle-bg-btn" class="btn">Change BG</button>
+            <button type="button" id="toggle-grid-btn" class="btn">Hide Tiles</button>
+            <button type="button" id="backspace-btn" class="btn btn-danger" title="Delete Tile">
+            <img src="img/common/del.svg" class="btn-icon" alt=""></button>
         </div>
     </div>
 
-    <textarea id="output-area" placeholder="Text goes here..."></textarea>
-    <div id="visual-output" class="visual-output"></div>
-    <div id="image-grid" class="image-grid">
-    </div>
+    <textarea id="output-area" class="textinput" placeholder="Text goes here..."></textarea>
+    <div id="output-grid" class="output-grid"></div>
+    <div id="tile-grid" class="tile-grid"></div>
 
-    <footer class="site-footer">
-        <div class="footer-banner">
-            <div style="text-align: center;">
-                <a href="https://github.com/Qubit69/ww-transliterator">Git Repo</a> | Made by <span>Yuisu
-                </span>
-                <a href="https://discord.gg/JnUd43sKSF">Discord</a> | <a href="https://github.com/Qubit69/ww-transliterator/tree/main/fonts">Fonts</a> | <a href="https://github.com/Qubit69/ww-transliterator/tree/main/ref">References</a>
-            </div>
-            <div id="changelog" style="margin-top: 12px; text-align: left;"></div>
-            <a href="https://github.com/Qubit69/ww-transliterator/commits/main/">More...</a>
-        </div>
-    </footer>
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
 </body>
 </html>
