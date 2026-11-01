@@ -3,6 +3,10 @@
     src: url('fonts/SOLARIS.ttf') format('truetype');
 }
 @font-face {
+    font-family: 'Solaris-Old';
+    src: url('fonts/SOLARIS-OLD.ttf') format('truetype');
+}
+@font-face {
     font-family: 'Ragunna';
     src: url('fonts/RAGUNNA.ttf') format('truetype');
 }
@@ -215,9 +219,8 @@ a:not(.header-link) {
 }
 /* Output > Glyph */
 .output-grid .glyph {
-    margin-top: 12px;
     font-size: 48px;
-    line-height: 40px;
+    line-height: 48px;
     display: inline-block;
     text-align: center;
     color: var(--text-primary);
