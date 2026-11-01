@@ -214,6 +214,7 @@ a:not(.header-link) {
 .output-grid.bg-invert { filter: invert(100%); }
 .output-grid.bg-green { background-color: #FB0BFB; }
 
+<<<<<<< Updated upstream
 /* Output > Glyph */
 .output-grid .glyph {
     font-size: 48px;
@@ -239,6 +240,17 @@ a:not(.header-link) {
     display: inline-block;
     padding: 0px;
     opacity:0.6;
+=======
+/* Output > Tile */
+.output-grid .translit-char {
+    display: block;
+    font-family: var(--script-font, monospace);
+    font-size: 32px;
+    line-height: 1;
+    color: var(--text-primary);
+    width: auto;
+    height: auto;
+>>>>>>> Stashed changes
 }
 
 /* Tile grid */
@@ -265,6 +277,7 @@ a:not(.header-link) {
 
 .tile:hover { background-color: var(--bg-lighter); }
 
+<<<<<<< Updated upstream
 /* Tile Grid > Glyph */
 .tile .glyph-tile {
     font-size: 48px;
@@ -288,7 +301,18 @@ a:not(.header-link) {
 .tile span {
     margin-top: 10px;
     font-size: 1rem;
+=======
+.tile .translit-char {
+    display: block;
+    font-family: var(--script-font, monospace);
+    font-size: 40px;
+    line-height: 1;
+>>>>>>> Stashed changes
     color: var(--text-primary);
+    pointer-events: none;
+    margin: 0;
+    width: auto;
+    height: auto;
 }
 
 

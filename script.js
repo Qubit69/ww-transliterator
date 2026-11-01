@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 const VERSION = "0.2"
 const GRID_CHARS = "QWERTYUIOPASDFGHJKLZXCVBNM";
 
@@ -6,6 +7,19 @@ const fontFaces = new Map();
 const fontLoading = new Map();
 const unknownImg = 'img/common/placeholders/unknown.png';
 
+=======
+const VERSION = "0.1"
+const scripts = {
+    "Solaris": { folder: "solaris", chars: "QWERTYUIOPASDFGHJKLZXCVBNM[](),.:;/" },
+    "Ragunna": { folder: "ragunna", chars: "QWERTYUIOPASDFGHJKLZXCVBNM" },
+    "Lahai-Roi": { folder: "lahairoi", chars: "QWERTYUIOPASDFGHJKLZXCVBNM.?" },
+    "PGR": { folder: "PGR", chars: "QWERTYUIOPASDFGHJKLZXCVBNM!?@$[]().:;/+=-_" },
+};
+
+const fontFaces = new Map();
+const fontLoading = new Map();
+
+>>>>>>> Stashed changes
 function cssFontFamily(name) {
     return `"${String(name)}"`;
 }
@@ -22,9 +36,15 @@ async function ensureScriptFont(name) {
 
     const job = async () => {
         try {
+<<<<<<< Updated upstream
             const upperName = key.toUpperCase();
             const url = new URL(`fonts/${upperName}.ttf`, document.baseURI || location.href);
             const font = new FontFaceCtor(key, `url(${url.toString()})`);
+=======
+            // Example: key "Solaris" -> ./fonts/Solaris.ttf
+            const url = new URL(`fonts/${key}.ttf`, document.baseURI || location.href);
+            const font = new FontFaceCtor(key, url.toString());
+>>>>>>> Stashed changes
 
             await font.load();
             document.fonts.add(font);
@@ -48,6 +68,7 @@ async function ensureScriptFont(name) {
     }
 }
 
+<<<<<<< Updated upstream
 // Load unknownImg
 const createImg = (src, alt = "") => {
     const img = document.createElement('img');
@@ -57,6 +78,8 @@ const createImg = (src, alt = "") => {
     return img;
 };
 
+=======
+>>>>>>> Stashed changes
 //Load header/footer
 async function loadComponent(id, file) {
     try {
@@ -204,6 +227,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         ui.grid.style.setProperty('--script-font', family);
         ui.visual.style.setProperty('--script-font', family);
     };
+<<<<<<< Updated upstream
 
     const hasFontGlyph = (scriptKey, char) => {
         try {
@@ -306,16 +330,96 @@ document.addEventListener('DOMContentLoaded', async () => {
     ui.select.onchange = () => renderGrid();
     ui.input.oninput = () => updateVisual();
 
+=======
+
+    const makeChar = (char) => {
+        const span = document.createElement('span');
+        span.className = 'translit-char';
+        span.textContent = char;
+        return span;
+    };
+
+    async function updateVisual() {
+        const scriptKey = ui.select.value;
+        if (!scripts[scriptKey]) return;
+
+        await ensureScriptFont(scriptKey);
+        applyScriptFont(scriptKey);
+
+        const frag = document.createDocumentFragment();
+
+        for (const char of ui.input.value) {
+            if (char === ' ') {
+                const spacer = document.createElement('div');
+                spacer.style.display = 'inline-block';
+                spacer.style.width = '20px';
+                frag.appendChild(spacer);
+                continue;
+            }
+
+            if (char === '\n') {
+                const lineBreak = document.createElement('div');
+                lineBreak.style.display = 'block';
+                lineBreak.style.flexBasis = '100%';
+                frag.appendChild(lineBreak);
+                continue;
+            }
+
+            frag.appendChild(makeChar(char));
+        }
+
+        ui.visual.innerHTML = '';
+        ui.visual.appendChild(frag);
+    }
+
+    async function renderGrid() {
+        const scriptKey = ui.select.value;
+        if (!scripts[scriptKey]) return;
+
+        await ensureScriptFont(scriptKey);
+        applyScriptFont(scriptKey);
+
+        ui.grid.innerHTML = '';
+        const script = scripts[scriptKey];
+
+        [...script.chars].forEach(char => {
+            const card = document.createElement('div');
+            card.className = 'tile';
+
+            const glyph = makeChar(char);
+            card.appendChild(glyph);
+
+            card.onclick = () => {
+                ui.input.value += char;
+                updateVisual();
+            };
+
+            ui.grid.appendChild(card);
+        });
+
+        await updateVisual();
+    }
+
+    // Delete tile btn
+>>>>>>> Stashed changes
     ui.backspaceBtn.addEventListener('click', () => {
         ui.input.value = ui.input.value.slice(0, -1);
         updateVisual();
     });
 
+<<<<<<< Updated upstream
+=======
+    // Toggle grid btn
+>>>>>>> Stashed changes
     ui.toggleGridBtn.addEventListener('click', () => {
         ui.grid.classList.toggle('hidden');
         ui.toggleGridBtn.textContent = ui.grid.classList.contains('hidden') ? 'Show Tiles' : 'Hide Tiles';
     });
 
+<<<<<<< Updated upstream
+=======
+    // Toggle background btn
+>>>>>>> Stashed changes
     let bgState = 0;
     const states = [
         { label: "Change BG", classes: [] },
@@ -331,7 +435,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         ui.tileBGbutton.textContent = states[bgState].label;
     });
 
+<<<<<<< Updated upstream
     if (Object.keys(scripts).length > 0) {
         await renderGrid();
     }
+=======
+    ui.select.innerHTML = Object.keys(scripts).map(n => `<option value="${n}">${n}</option>`).join('');
+    ui.select.onchange = () => renderGrid();
+    ui.input.oninput = () => updateVisual();
+
+    await renderGrid();
+>>>>>>> Stashed changes
 });
