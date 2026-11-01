@@ -1,60 +1,62 @@
-const VERSION = "0.1"
-const scripts = {
-    "Solaris": { folder: "solaris", chars: "QWERTYUIOPASDFGHJKLZXCVBNM[](),.:;/" },
-    "Ragunna": { folder: "ragunna", chars: "QWERTYUIOPASDFGHJKLZXCVBNM" },
-    "Lahai-Roi": { folder: "lahairoi", chars: "QWERTYUIOPASDFGHJKLZXCVBNM.?" },
-    "PGR": { folder: "pgr", chars: "QWERTYUIOPASDFGHJKLZXCVBNM!?@$[]().:;/+=-_" },
-};
+const VERSION = "0.2"
+const GRID_CHARS = "QWERTYUIOPASDFGHJKLZXCVBNM";
 
-const specialCharMap = {
-    '?': 'question',
-    '!': 'exclamation',
-    '*': 'asterisk',
-    '\'': 'quote',
-    '"': 'double-quote',
-    '<': 'less-than',
-    '>': 'greater-than',
-    '~': 'tilde',
-    ':': 'double-dot',
-    ';': 'semicolon',
-    '.': 'dot',
-    '\\': 'backslash',
-    '/': 'slash',
-    '#': 'hashtag',
-    '%': 'percent',
-    '@': 'at',
-    '$': 'dollar',
-    '=': 'equals',
-    '_': 'underscore',
-    '-': 'dash',
-    '+': 'plus'
-};
-
+let scripts = {};
+const fontFaces = new Map();
+const fontLoading = new Map();
 const unknownImg = 'img/common/placeholders/unknown.png';
-const imgCache = new Map();
 
-function getPath(char, folder = 'common/placeholders') {
-    const name = specialCharMap[char] || char.toLowerCase();
-    return `img/${folder}/${name}.png`;
+function cssFontFamily(name) {
+    return `"${String(name)}"`;
 }
 
-// Preload all assets
-function initAssets() {
-    [unknownImg, ...Object.values(specialCharMap).map(n => `img/common/placeholders/${n}.png`)].forEach(preload);
-    Object.entries(scripts).forEach(([_, { folder, chars }]) => {
-        chars.split('').forEach(c => preload(getPath(c, folder)));
-    });
-    Object.keys(specialCharMap).forEach(char => {
-        Object.values(scripts).forEach(({ folder }) => preload(getPath(char, folder)));
-        preload(getPath(char));
-    });
+async function ensureScriptFont(name) {
+    const key = String(name || '');
+    if (!key || !scripts[key]) return null;
+
+    if (fontFaces.has(key)) return fontFaces.get(key);
+    if (fontLoading.has(key)) return await fontLoading.get(key);
+
+    const FontFaceCtor = window.FontFace;
+    if (!FontFaceCtor || !document.fonts) return null;
+
+    const job = async () => {
+        try {
+            const upperName = key.toUpperCase();
+            const url = new URL(`fonts/${upperName}.ttf`, document.baseURI || location.href);
+            const font = new FontFaceCtor(key, `url(${url.toString()})`);
+
+            await font.load();
+            document.fonts.add(font);
+
+            fontFaces.set(key, font);
+            return font;
+        } catch (error) {
+            console.warn(`Could not load fonts/${key}.ttf`, error);
+            fontFaces.set(key, null);
+            return null;
+        }
+    };
+
+    const promise = job();
+    fontLoading.set(key, promise);
+
+    try {
+        return await promise;
+    } finally {
+        fontLoading.delete(key);
+    }
 }
 
-function preload(src) {
-    const img = new Image();
+// Load unknownImg
+const createImg = (src, alt = "") => {
+    const img = document.createElement('img');
     img.src = src;
-    img.onerror = () => imgCache.set(src, unknownImg);
-}
+    img.alt = alt;
+    img.onerror = () => { img.src = unknownImg; };
+    return img;
+};
+
 //Load header/footer
 async function loadComponent(id, file) {
     try {
@@ -64,20 +66,11 @@ async function loadComponent(id, file) {
         }
     } catch (error) {}
 }
-// Load tiles
-const createImg = (src, alt = "") => {
-    const img = document.createElement('img');
-    img.src = imgCache.get(src) || src;
-    img.alt = alt;
-    img.onerror = () => { img.src = unknownImg; imgCache.set(src, unknownImg); };
-    return img;
-};
 
 // Load the changelog
 async function loadChangelog() {
-
     const path = window.location.pathname;
-    const isIndex = path.endsWith('index.html') || path.endsWith('/') || path.endsWith('/ww-transliterator/');
+    const isIndex = path.endsWith('index.html') || path.endsWith('/');
     if (!isIndex) return;
 
     const container = document.getElementById('changelog');
@@ -158,7 +151,7 @@ async function loadFonts() {
             container.appendChild(box);
             cards.push(box);
         });
-        // Filter
+
         searchInput.oninput = (e) => {
             const query = e.target.value.toLowerCase().trim();
             cards.forEach(card => {
@@ -172,6 +165,7 @@ async function loadFonts() {
         container.innerHTML = 'Failed to load fonts.';
     }
 }
+
 // Init
 document.addEventListener('DOMContentLoaded', async () => {
     await loadComponent('header-placeholder', 'header.html');
@@ -185,6 +179,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     loadChangelog();
     loadFonts();
 
+    try {
+        const response = await fetch('./fonts/fonts.json');
+        const fontList = await response.json();
+        fontList.forEach(font => {
+            scripts[font.name] = { name: font.name, description: font.description };
+        });
+    } catch (error) {
+        console.error('Fonts.json:', error);
+    }
+
     const ui = {
         select: document.getElementById('script-select'),
                           grid: document.getElementById('tile-grid'),
@@ -195,20 +199,123 @@ document.addEventListener('DOMContentLoaded', async () => {
                           backspaceBtn: document.getElementById('backspace-btn')
     };
 
-    initAssets();
+    const applyScriptFont = (scriptKey) => {
+        const family = cssFontFamily(scriptKey);
+        ui.grid.style.setProperty('--script-font', family);
+        ui.visual.style.setProperty('--script-font', family);
+    };
 
-// Delete tile btn
+    const hasFontGlyph = (scriptKey, char) => {
+        try {
+            return document.fonts.check(`32px "${scriptKey}"`, char);
+        } catch (e) {
+            return false;
+        }
+    };
+
+    async function updateVisual() {
+        const scriptKey = ui.select.value;
+        if (!scripts[scriptKey]) return;
+
+        await ensureScriptFont(scriptKey);
+        applyScriptFont(scriptKey);
+
+        const frag = document.createDocumentFragment();
+
+        for (const char of ui.input.value.toUpperCase()) {
+            if (char === ' ') {
+                const spacer = document.createElement('div');
+                spacer.style.display = 'inline-block';
+                spacer.style.width = '20px';
+                frag.appendChild(spacer);
+                continue;
+            }
+
+            if (char === '\n') {
+                const lineBreak = document.createElement('div');
+                lineBreak.className = 'line-break';
+                frag.appendChild(lineBreak);
+                continue;
+            }
+
+            const isNumber = /[0-9]/.test(char);
+            const isLetter = /[a-zA-Z]/.test(char);
+
+            if (isLetter) {
+                const glyph = document.createElement('span');
+                glyph.className = 'glyph';
+                glyph.style.fontFamily = `"${scriptKey}", sans-serif`;
+                glyph.textContent = char;
+                frag.appendChild(glyph);
+            } else if (isNumber && hasFontGlyph(scriptKey, char)) {
+                const glyph = document.createElement('span');
+                glyph.className = 'glyph';
+                glyph.style.fontFamily = `"${scriptKey}", sans-serif`;
+                glyph.textContent = char;
+                frag.appendChild(glyph);
+            } else if (isNumber) {
+                const defaultChar = document.createElement('span');
+                defaultChar.className = 'glyph default-font-char';
+                defaultChar.textContent = char;
+                frag.appendChild(defaultChar);
+            } else {
+                frag.appendChild(createImg(unknownImg, char));
+            }
+        }
+
+        ui.visual.innerHTML = '';
+        ui.visual.appendChild(frag);
+    }
+
+    async function renderGrid() {
+        const scriptKey = ui.select.value;
+        if (!scripts[scriptKey]) return;
+
+        await ensureScriptFont(scriptKey);
+        applyScriptFont(scriptKey);
+
+        ui.grid.innerHTML = '';
+
+        [...GRID_CHARS].forEach(char => {
+            const card = document.createElement('div');
+            card.className = 'tile';
+
+            const glyph = document.createElement('span');
+            glyph.className = 'glyph-tile';
+            glyph.style.fontFamily = `"${scriptKey}", sans-serif`;
+            glyph.textContent = char;
+            card.appendChild(glyph);
+
+            const label = document.createElement('span');
+            label.textContent = char;
+
+            card.append(label);
+
+            card.onclick = () => {
+                ui.input.value += char;
+                updateVisual();
+            };
+
+            ui.grid.appendChild(card);
+        });
+
+        await updateVisual();
+    }
+
+    ui.select.innerHTML = Object.keys(scripts).map(n => `<option value="${n}">${n}</option>`).join('');
+    ui.select.onchange = () => renderGrid();
+    ui.input.oninput = () => updateVisual();
+
     ui.backspaceBtn.addEventListener('click', () => {
         ui.input.value = ui.input.value.slice(0, -1);
         updateVisual();
     });
 
-// Toggle grid btn
     ui.toggleGridBtn.addEventListener('click', () => {
         ui.grid.classList.toggle('hidden');
         ui.toggleGridBtn.textContent = ui.grid.classList.contains('hidden') ? 'Show Tiles' : 'Hide Tiles';
     });
-// Toggle background btn
+
     let bgState = 0;
     const states = [
         { label: "Change BG", classes: [] },
@@ -224,57 +331,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         ui.tileBGbutton.textContent = states[bgState].label;
     });
 
-// Tile logic
-    const updateVisual = () => {
-        const frag = document.createDocumentFragment();
-        const script = scripts[ui.select.value];
-
-        [...ui.input.value].forEach(char => {
-            if (char === ' ') {
-                const spacer = document.createElement('div');
-                spacer.style.display = 'inline-block';
-                spacer.style.width = '20px';
-                return frag.appendChild(spacer);
-            }
-
-            if (char === '\n') {
-                const br = document.createElement('div');
-                br.style.flexBasis = '100%';
-                return frag.appendChild(br);
-            }
-
-            const folderSrc = getPath(char, script.folder);
-            const commonSrc = getPath(char);
-            let src = folderSrc;
-
-            // Final fallback
-            const isScriptChar = script.chars.includes(char.toUpperCase()) || script.chars.includes(char.toLowerCase());
-            if (!isScriptChar && imgCache.get(folderSrc) === unknownImg) {
-                src = commonSrc;
-            }
-
-            frag.appendChild(createImg(src));
-        });
-
-        ui.visual.innerHTML = '';
-        ui.visual.appendChild(frag);
-    };
-
-    const renderGrid = () => {
-        ui.grid.innerHTML = '';
-        const script = scripts[ui.select.value];
-        script.chars.split('').forEach(char => {
-            const card = document.createElement('div');
-            card.className = 'tile';
-            card.append(createImg(getPath(char, script.folder), char), Object.assign(document.createElement('span'), {textContent: char}));
-            card.onclick = () => { ui.input.value += char; updateVisual(); };
-            ui.grid.appendChild(card);
-        });
-        updateVisual();
-    };
-
-    ui.select.innerHTML = Object.keys(scripts).map(n => `<option value="${n}">${n}</option>`).join('');
-    ui.select.onchange = renderGrid;
-    ui.input.oninput = updateVisual;
-    renderGrid();
+    if (Object.keys(scripts).length > 0) {
+        await renderGrid();
+    }
 });

@@ -1,27 +1,22 @@
 [
   {
+    "date": "2026-11-01",
+    "version":"0.2",
+    "changes": [
+      "Now uses **font** files **directly** instead of PNGs",
+      "Added **Septimont** and **Solaris-Old**\nNote: **J** and **Z** is missing from **Septimont**",
+      "**Temporarily removed PGR** as it's font file is\n **very** broken and needs to be adjusted",
+      "**Special characters** hidden from grid for\nconsistency. They **still work** in some fonts that\nhave them, but only if you type them in"]
+  },
+  {
     "date": "2026-10-31",
     "version": "0.1",
     "changes": [
       "Restyled some elements",
-      "Added *version numbers v(major.minor)*",
+      "Added **version numbers v(major.minor)**",
       "Cleaned some backend stuff in preparation-\nof multiple pages",
       "Added proper **fonts page**.\nPlease check it out!",
       "Changed delete tile button from unicode to SVG"
-    ]
-  },
-  {
-    "date": "2026-10-25",
-    "version": "",
-    "changes": [
-      "Reduced short changelog (this one) to 2 entries.\nShort changelog can now show **bold** text.\nMade the changelog more readable\n",
-      "Added more reference pics",
-      "Added **links** to **references**. Many of these-\n are not sorted (yet)",
-      "Added **links** to **fonts**",
-      "Fixed Tile letters CSS not being applied",
-      "Reduced tile size. Also condensed page layout",
-      "Renamed to **Yui's Transliterator**",
-      "Tiles can now be hidden"
     ]
   }
 ]

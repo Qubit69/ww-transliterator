@@ -1,8 +1,26 @@
+@font-face {
+    font-family: 'Solaris';
+    src: url('fonts/SOLARIS.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Ragunna';
+    src: url('fonts/RAGUNNA.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Lahai-Roi';
+    src: url('fonts/LAHAI-ROI.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Septimont';
+    src: url('fonts/SEPTIMONT.ttf') format('truetype');
+}
+
 :root {
     --bg-main: #161616;
     --bg-lighter: #333333; /* Also used for borders */
     --bg-light:#222222;
     --bg-dark:#111111;
+    --bg-warn:yellow;
     --bg-danger: #a81808;
     --bg-danger-hover: #d61d08;
     --text-primary: rgba(255, 255, 255, 0.9);
@@ -103,18 +121,18 @@ a:not(.header-link) {
 
 /* Controls > Text box */
 .textinput {
-        font-family: var(--font-family);
-width: 100%;
-max-width: var(--max-content-width);
-height: 87px;
-padding: 15px;
-font-size: 1.2rem;
-border-radius: var(--border-radius);
-border: 2px solid transparent;
-resize: none;
-transition: border-color 0.2s ease;
-background-color: var(--bg-light);
-color: var(--text-primary);
+    font-family: var(--font-family);
+    width: 100%;
+    max-width: var(--max-content-width);
+    height: 87px;
+    padding: 15px;
+    font-size: 1.2rem;
+    border-radius: var(--border-radius);
+    border: 2px solid transparent;
+    resize: none;
+    transition: border-color 0.2s ease;
+    background-color: var(--bg-light);
+    color: var(--text-primary);
 }
 .textinput:focus {
     border:2px solid var(--bg-lighter);
@@ -122,28 +140,28 @@ color: var(--text-primary);
 }
 /* Controls > Selection box */
 .selector {
-color: var(--text-primary);
-background-color: var(--bg-light);
-border: 1px solid var(--bg-lighter);
-padding: 10px;
-border-radius: var(--border-radius);
-font-size: 1rem;
-cursor: pointer;
+    color: var(--text-primary);
+    background-color: var(--bg-light);
+    border: 1px solid var(--bg-lighter);
+    padding: 10px;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    cursor: pointer;
 }
 /* Controls > Buttons */
 .btn {
-background-color: var(--bg-light);
-color: var(--text-primary);
-border: 1px solid var(--bg-lighter);
-padding: 6px 12px;
-border-radius: var(--border-radius);
-cursor: pointer;
-font-size: 0.9rem;
-transition: var(--transition);
+    background-color: var(--bg-light);
+    color: var(--text-primary);
+    border: 1px solid var(--bg-lighter);
+    padding: 6px 12px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: var(--transition);
 }
 
 .btn:hover{
-background-color: var(--bg-lighter);
+    background-color: var(--bg-lighter);
 }
 .btn-icon {
     display:block;
@@ -154,18 +172,18 @@ background-color: var(--bg-lighter);
 
 /* Controls > Red Buttons */
 .btn.btn-danger {
-background-color: var(--bg-danger);
-padding: 6px 12px;
-color: var(--text-primary);
-border: 1px solid var(--bg-danger-hover);
-border-radius: var(--border-radius);
-cursor: pointer;
-font-size: 0.9rem;
-transition: var(--transition);
+    background-color: var(--bg-danger);
+    padding: 6px 12px;
+    color: var(--text-primary);
+    border: 1px solid var(--bg-danger-hover);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: var(--transition);
 }
 
 .btn.btn-danger:hover {
-background-color: var(--bg-danger-hover);
+    background-color: var(--bg-danger-hover);
 }
 
 /* Tile and output grid */
@@ -185,17 +203,42 @@ background-color: var(--bg-danger-hover);
     background-color: var(--bg-light);
     border-radius: var(--border-radius);
 }
-
+/* Output > Line Break */
+.output-grid .line-break {
+    display: block;
+    flex-basis: 100%;
+    height: 16px;
+}
 /* Output > BG Toggle */
 .output-grid.bg-black { background-color: #000000; }
 .output-grid.bg-invert { filter: invert(100%); }
 .output-grid.bg-green { background-color: #FB0BFB; }
 
-/* Output > Tile */
+/* Output > Glyph */
+.output-grid .glyph {
+    font-size: 48px;
+    line-height: 48px;
+    display: inline-block;
+    text-align: center;
+    color: var(--text-primary);
+}
+
+/* Output > Placeholder Image */
 .output-grid img {
-    height: 32px;
+    height: 40px;
     width: auto;
     object-fit: contain;
+    opacity: 0.6;
+}
+
+/* Output > Numbers */
+.output-grid .default-font-char {
+    font-family: var(--font-family);
+    font-size: 40px;
+    line-height: 32px;
+    display: inline-block;
+    padding: 0px;
+    opacity:0.6;
 }
 
 /* Tile grid */
@@ -215,15 +258,32 @@ background-color: var(--bg-danger-hover);
     border-radius: var(--border-radius);
     border: 1px solid var(--bg-lighter);
 }
+.tile-warn
+{
+    background-color:var(--bg-warn);
+}
 
 .tile:hover { background-color: var(--bg-lighter); }
 
-.tile img {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
+/* Tile Grid > Glyph */
+.tile .glyph-tile {
+    font-size: 48px;
+    line-height: 40px;
+    display: inline-block;
+    text-align: center;
+    color: var(--text-primary);
     pointer-events: none;
 }
+
+/* Tile Grid > Placeholder Image */
+.tile .tile-img-placeholder {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
 /* Tile top spacing */
 .tile span {
     margin-top: 10px;
