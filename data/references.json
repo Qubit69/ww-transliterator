@@ -1,0 +1,26 @@
+[
+    {
+        "title": "Honami",
+        "tags": ["2.8", "Honami", "WIP"],
+        "desc": "",
+        "status": 1,
+        "show": 1,
+        "body": "honami.md"
+    },
+    {
+        "title": "CSC",
+        "tags": ["1.1", "Mt. Firmament", "Sonoro Sphere", "SkyArk"],
+        "desc": "Court of Savantae. Almost seems like runes",
+        "status": 1,
+        "show": 0,
+        "body": "csc.md"
+    },
+    {
+        "title": "example-entry",
+        "tags": ["Version", "Location", "Some other tag"],
+        "desc": "Short descriptor",
+        "status": 0,
+        "show": 0,
+        "body": "example-entry.md"
+    }
+]
