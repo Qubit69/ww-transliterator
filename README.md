@@ -1,5 +1,5 @@
 <div align="center">
-   <img src="./img/common/preview.png" width="800px" />
+   <img src="./assets/images/preview.png" width="800px" />
 </div>
 
 This tool is created for the purpose of transliterating in-game text.
@@ -12,6 +12,14 @@ Features:
 
 > Different BG colors
 
-> Scripts from 2 games, Wuthering Waves and PGR
+> Scripts from:
+
+|Wuthering Waves|
+|-|
+|Solaris|
+|Solaris-Old|
+|Ragunna|
+|Septimont|
+|Lahai-Roi|
 
 -----

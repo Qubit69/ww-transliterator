@@ -1,0 +1,21 @@
+[
+  {
+    "date": "2026-11-06",
+    "version": "1.0",
+    "changes": [
+      "Added a **references page** with explanations.\nVery **Work In Progress** as i do not have\ntime to write a lot of stuff yet",
+      "Reorganized repo",
+      "Added favicon",
+      "Missing tiles are now marked grey"
+    ]
+  },
+  {
+    "date": "2026-11-01",
+    "version":"0.2",
+    "changes": [
+      "Now uses **font** files **directly** instead of PNGs",
+      "Added **Septimont** and **Solaris-Old**\nNote: **J** and **Z** is missing from **Septimont**",
+      "**Temporarily removed PGR** as it's font file is\n **very** broken and needs to be adjusted",
+      "**Special characters** hidden from grid for\nconsistency. They **still work** in some fonts that\nhave them, but only if you type them in"]
+  }
+]
