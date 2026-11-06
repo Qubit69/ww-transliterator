@@ -1,12 +1,15 @@
 [
   {
     "date": "2026-11-06",
-    "version": "1.0",
+    "version": "1.1",
     "changes": [
       "Added a **references page** with explanations.\nVery **Work In Progress** as i do not have\ntime to write a lot of stuff yet",
       "Reorganized repo",
       "Added favicon",
-      "Missing tiles are now marked grey"
+      "Missing tiles are now marked grey\n1.1:",
+      "Fix image width on ref page",
+      "Add New Federation to ref page"
+
     ]
   },
   {

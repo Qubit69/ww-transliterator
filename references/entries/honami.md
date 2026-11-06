@@ -4,14 +4,14 @@ Also many characters are extremely distorted, making them hard to recognize/cros
 But they do share some similarities with others as shown below.
 
 > A unknown author tried to decipher these to Latin.
+![Grid image 1](images/honami/unknown-1.png)
+![Grid image 2](images/honami/unknown-2.png)
+![Grid image 3](images/honami/unknown-3.png)
 
-|||
-| --- | --- |
-| ![Grid image 1](images/honami/unknown-1.png "max-width=300px") | ![Grid image 2](images/honami/unknown-2.png "max-width=400px") |
-| ![Grid image 3](images/honami/unknown-3.png "max-width=300px") |  |
-
+----
 
 > Credit to **@.Syde**
+
 ||||
 | --- | --- | --- |
 | ![Honami reference 4](images/honami/syde-1.png "max-width=200px") | ![Honami reference 5](images/honami/syde-2.png "max-width=200px") | ![Honami reference 6](images/honami/syde-3.png "max-width=200px") |

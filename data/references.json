@@ -22,5 +22,13 @@
         "status": 0,
         "show": 0,
         "body": "example-entry.md"
+    },
+    {
+        "title": "New Federation",
+        "tags": ["3.8", "Livestream", "WIP"],
+        "desc": "From the livestream. May not be New Fed",
+        "status": 3,
+        "show": 1,
+        "body": "new-fed.md"
     }
 ]
