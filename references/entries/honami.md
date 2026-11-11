@@ -1,9 +1,9 @@
-These are unlike other scripts. They are probably using Japanese meanings.
+Unlike other scripts, these are not likely to mean anything
 
 Also many characters are extremely distorted, making them hard to recognize/cross reference.
-But they do share some similarities with others as shown below.
+But they do share some similarities with others.
 
-> A unknown author tried to decipher these to Latin.
+> Credit to **索拉里斯语言学** on [bilibili](https://www.bilibili.com/ja/video/BV1CfqeBhEaE/) **@ 0:49**
 ![Grid image 1](images/honami/unknown-1.png)
 ![Grid image 2](images/honami/unknown-2.png)
 ![Grid image 3](images/honami/unknown-3.png)
