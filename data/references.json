@@ -1,7 +1,7 @@
 [
     {
         "title": "Honami",
-        "tags": ["2.8", "Honami", "WIP"],
+        "tags": ["2.8", "Honami"],
         "desc": "",
         "status": 1,
         "show": 1,
@@ -22,6 +22,14 @@
         "status": 0,
         "show": 0,
         "body": "example-entry.md"
+    },
+        {
+        "title": "Ragunna",
+        "tags": ["2.0-2.7", "Rinascita", "WIP"],
+        "desc": "Short descriptor",
+        "status": 4,
+        "show": 1,
+        "body": "ragunna.md"
     },
     {
         "title": "New Federation",
